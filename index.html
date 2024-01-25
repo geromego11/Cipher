@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher App</title>
+    <!-- Bootstrap CSS link -->
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="display-4">Caesar Cipher App</h1>
+        <div id="app-container">
+            <textarea name="" id="text"></textarea>
+            <div id="buttons-container">
+                <button id="encrypt">Encrypt</button>
+                <input id="key" type="text" placeholder="key">
+                <button id="decrypt">Decrypt</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const btnEncrypt = document.querySelector('#encrypt');
+        const btnDecrypt = document.querySelector('#decrypt');
+        const key = document.querySelector('#key');
+
+        const listLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+                             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        
+        let newText = '';
+        
+        btnEncrypt.addEventListener('click', () => {
+            const textarea = document.querySelector('#text');
+            const keyValue = Number(key.value);
+
+            for (let letter of textarea.value) {
+                letter = letter.toLowerCase();
+                if (!listLetters.includes(letter)) {
+                    continue
+                }
+
+                const indexLetter = listLetters.findIndex((item) => item === letter);
+                let indexNewLetter = indexLetter + keyValue
+
+                if(indexNewLetter > 25) {
+                    indexNewLetter -= 26;
+                }
+                newText += listLetters[indexNewLetter];
+                textarea.value = newText;
+            }
+            newText = '';
+        })
+
+        btnDecrypt.addEventListener('click', () => {
+            const textarea = document.querySelector('#text');
+            const keyValue = Number(key.value);
+
+            for (const letter of textarea.value) {
+                if (!listLetters.includes(letter)) {
+                    continue
+                }
+
+                const indexLetter = listLetters.findIndex((item) => item === letter);
+                let indexNewLetter = indexLetter - keyValue
+
+                if(indexNewLetter < 0) {
+                    indexNewLetter += 26;
+                }
+                newText += listLetters[indexNewLetter];
+                textarea.value = newText;
+            }
+            newText = '';
+        })
+    </script>
+</body>
+</html>
